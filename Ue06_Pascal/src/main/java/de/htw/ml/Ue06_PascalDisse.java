@@ -66,7 +66,7 @@ public class Ue06_PascalDisse extends Application {
 		float min = org.min();
 		return norm.mul(max-min).add(min);
 	}
-    
+
 
 	// ---------------------------------------------------------------------------------
 	// ------------ Alle Änderungen ab hier geschehen auf eigene Gefahr ----------------
