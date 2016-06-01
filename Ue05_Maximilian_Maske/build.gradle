@@ -1,0 +1,36 @@
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'idea'
+}
+
+// Zeichenenkoding
+tasks.withType(AbstractCompile)*.options*.encoding = "UTF-8"
+
+// Java Kompatibilität
+sourceCompatibility = targetCompatibility = 1.8
+
+// wie soll das Projekt in Eclipse heißen
+def projectName = 'Ue05_Vorlage_Java'
+eclipse.project.name = projectName
+idea.module.name = projectName
+
+// Wo sollen Abhängigkeiten nachgeschaut werden
+repositories {
+    mavenCentral()
+}
+
+// Abhängigkeiten
+dependencies {
+	compile fileTree('lib'),			// verwende alle Jars im Lib Verzeichnis
+		'org.jblas:jblas:1.2.4';		// JBLAS für Matrix Operationen
+	testCompile 'junit:junit:4.+';		// jUnit für alle Tests 
+}
+
+/**
+ * Erstellt die gradlew.bat und gradlew.sh Datei 
+ */
+task wrapper(type: Wrapper) {
+    gradleVersion = "2.13";
+	distributionUrl = "https://services.gradle.org/distributions/gradle-2.13-all.zip";
+}
