@@ -10,7 +10,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
-public class Ue07_Vorlage_Java extends Application {
+public class Ue07_Pascal_Disse extends Application {
 	
 	private static final int TrainingIterations = 3000;
 	private static final float LearnRate = 0.5f;

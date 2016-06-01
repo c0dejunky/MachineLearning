@@ -8,13 +8,13 @@ import java.util.Set;
 import org.jblas.FloatMatrix;
 import org.jblas.util.Random;
 
-public class Dataset {
+public class DataSet {
 
 	private FloatMatrix data;
 	private FloatMatrix train;
 	private FloatMatrix test;
 
-	public Dataset(String path){
+	public DataSet(String path){
 		try {
 			data = FloatMatrix.loadCSVFile(path);
 		} catch (IOException e) {

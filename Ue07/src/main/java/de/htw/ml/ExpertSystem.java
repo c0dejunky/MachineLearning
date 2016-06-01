@@ -1,16 +1,12 @@
 package de.htw.ml;
 
 import java.util.Arrays;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 import org.jblas.FloatMatrix;
 
 public class ExpertSystem {
 
-	protected LogisticRegression regression;
+	protected oldLogisticRegression regression;
 	
 	protected int[] labels; 		// diese Labels soll das System Vorhersagen können
 	protected FloatMatrix[] thetas; // die Gewichte für ein Label
@@ -19,7 +15,7 @@ public class ExpertSystem {
 
 	
 	public ExpertSystem(int trainingIterations, float learnRate, int[] labels) {
-		this.regression = new LogisticRegression(trainingIterations, learnRate);
+		this.regression = new oldLogisticRegression(trainingIterations, learnRate);
 		this.thetas = new FloatMatrix[labels.length];
 		this.accuracy = new float[labels.length][];
 		this.trainErr = new float[labels.length][];		
@@ -64,7 +60,7 @@ public class ExpertSystem {
 		FloatMatrix yTest = dataset.getYTest();
 		
 		// die Vorhersagen für jedes Label
-		FloatMatrix[] hypothesisArr = Arrays.stream(thetas).map(theta -> LogisticRegression.predict(xTest, theta)).toArray(FloatMatrix[]::new);
+		FloatMatrix[] hypothesisArr = Arrays.stream(thetas).map(theta -> oldLogisticRegression.predict(xTest, theta)).toArray(FloatMatrix[]::new);
 		
 		// durchlaufe alle Zeilen
 		int correctSum = 0;

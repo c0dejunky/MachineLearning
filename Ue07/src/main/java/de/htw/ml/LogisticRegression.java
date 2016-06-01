@@ -45,8 +45,9 @@ public class LogisticRegression {
 	 * @return
 	 */
 	public static FloatMatrix predict(FloatMatrix x, FloatMatrix theta) {
-		// TODO Auto-generated method stub
-		return null;
+		FloatMatrix z = x.mmul(theta);
+		FloatMatrix hypoTheta = sigmoidi(z);
+		return hypoTheta;
 	}
 		
 	/**
@@ -57,8 +58,8 @@ public class LogisticRegression {
 	 * @return
 	 */
 	public static float cost(FloatMatrix prediction, FloatMatrix y) {
-		// TODO Auto-generated method stub
-		return 0;
+        FloatMatrix p = prediction.ge(0.5f);
+        return p.sub(y).norm1();
 	}
 
 	/**
@@ -69,8 +70,9 @@ public class LogisticRegression {
 	 * @return
 	 */
 	public static float predictionRate(FloatMatrix prediction, FloatMatrix y) {
-		// TODO Auto-generated method stub
-		return 0;
+		float error = cost(prediction, y);
+        int m = y.rows;
+        return (m-error)/m * 100;
 	}
 
 	/**

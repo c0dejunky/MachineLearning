@@ -13,38 +13,63 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
-public class Ue06 extends Application {
+public class Ue06_PascalDisse extends Application {
 
 	public static final String title = "Line Chart";
-	public static final String xAxisLabel = "Iteration";
-	public static final String yAxisLabel = "RMSE";
-	
+	public static final String xAxisLabel = "Iterations";
+	public static final String yAxisLabel = "Prediction Rate";
 	
 	public static void main(String[] args) throws IOException {
-		//Cars, MPG
-//		FloatMatrix cars = FloatMatrix.loadCSVFile("cars_jblas.csv");
-//		FloatMatrix carValues = cars.getColumns(new int[]{0, 1, 2, 3, 4, 5});
-//		FloatMatrix mpg = cars.getColumn(6);
-//		
-//		LinearRegression lrCars = new LinearRegression(carValues, mpg, 300, 8);
-//		lrCars.printBestRmse();
-//		plot(lrCars.rmseValues.toArray());;
+		//load files
+		FloatMatrix cars = FloatMatrix.loadCSVFile("cars_jblas.csv");
+		FloatMatrix credit = FloatMatrix.loadCSVFile("german_credit_jblas.csv");
 		
-		//Credit Amount
-		FloatMatrix credit = FloatMatrix.loadCSVFile("german_credit_jblas.csv"); //21 columns
-		FloatMatrix creditValues = credit.getColumns(new int[]{0, 1, 2, 3, 4, 6,7 , 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
-		FloatMatrix creditAmount = credit.getColumn(5); //Credit Amount in 6. column
-			
-		LinearRegression lrCredit = new LinearRegression(creditValues, creditAmount, 300, 8);
-		lrCredit.printBestTheta();
-		lrCredit.printBestRmse();
-		plot(lrCredit.rmseValues.toArray());
+		//set values used for calcualtion
+		FloatMatrix values = credit;
+
+		//set number of iterations and alpha
+		int iterations = 100;
+		float alpha = 0.03f;
 		
+		//get values from last column
+		int lastColumnIndex = values.columns-1;
+		FloatMatrix orgY = values.getColumn(lastColumnIndex);
+		
+		//normalize values
+		FloatMatrix normX = getNormValues(values, lastColumnIndex);
+		FloatMatrix normY = normalize(orgY);
+		
+		//do logistic Regression and calc error Rate
+		float[] predRates = LogisticRegression.calcLogReg(normX,normY,alpha,iterations);
+
+		//plot prediction Rates
+		plot(predRates);
+
 	}
 	
+	public static FloatMatrix getNormValues(FloatMatrix orgX, int columns){
+		FloatMatrix normValues = new FloatMatrix(orgX.rows, columns);
+		for(int i = 0; i < columns; i++){
+			normValues.putColumn(i, normalize(orgX.getColumn(i)));
+		}
+		return normValues;
+	}
 	
+	public static FloatMatrix normalize(FloatMatrix v){
+		float max = v.max();
+		float min = v.min();
+		return v.sub(min).div(max-min);
+	}
+	
+	public static FloatMatrix denormalize(FloatMatrix norm, FloatMatrix org){
+		float max = org.max();
+		float min = org.min();
+		return norm.mul(max-min).add(min);
+	}
+
+
 	// ---------------------------------------------------------------------------------
-	// ------------ Alle Änderungen ab hier geschehen auf eigene Gefahr ----------------
+	// ------------ Alle Ã„nderungen ab hier geschehen auf eigene Gefahr ----------------
 	// ---------------------------------------------------------------------------------
 	
 	/**
@@ -70,11 +95,7 @@ public class Ue06 extends Application {
 	/**
 	 * Startet die eigentliche Applikation
 	 * 
-	 * @param gdppp
-	 * @param lifespan
-	 * @param xValues
 	 * @param yValues
-	 * @param args
 	 */
 	public static void plot(float[] yValues) {
 		dataY = yValues;
@@ -111,8 +132,4 @@ public class Ue06 extends Application {
 		stage.setScene(scene);
 		stage.show();
     }
-	
-
-	
-	
 }
