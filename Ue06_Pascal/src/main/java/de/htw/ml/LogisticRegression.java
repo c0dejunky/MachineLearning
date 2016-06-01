@@ -35,10 +35,10 @@ public class LogisticRegression {
         int iterations = 100;
 
 
-        calcLogReg(x, y, alpha, m, iterations);
+        calcLogReg(x, y, alpha,iterations);
     }
 
-    public static FloatMatrix calcLogReg(FloatMatrix x, FloatMatrix y, float v, float alpha, int iterations){
+    public static float[] calcLogReg(FloatMatrix x, FloatMatrix y, float alpha, int iterations){
         Random.seed(7);
         FloatMatrix theta = FloatMatrix.rand(x.columns, 1);
         int m = y.rows;
@@ -62,7 +62,7 @@ public class LogisticRegression {
             //prediction Rate
             predRates[i] = (m-error)/m * 100;
         }
-        return null;
+        return predRates;
     }
 
 
@@ -95,44 +95,6 @@ public class LogisticRegression {
                 1/(1+Math.pow(Math.E, -z)));
     }
 
-
-    public static FloatMatrix denormalize(FloatMatrix norm, FloatMatrix org) {
-        float max = org.max();
-        float min = org.min();
-        return norm.mul(max - min).add(min);
-    }
-
-    public static float rmse(FloatMatrix y, FloatMatrix gleichung) {
-        return (float) Math.sqrt((double) MatrixFunctions.pow(y.sub(gleichung), 2).sum() / (gleichung.length));
-    }
-
-    public static FloatMatrix linearkombi(FloatMatrix theta, FloatMatrix x) {
-        return x.mmul(theta);
-    }
-
-    public static FloatMatrix gradient(FloatMatrix x, FloatMatrix y, FloatMatrix theta, float alpha, float m) {
-        FloatMatrix hypoTheta = x.mmul(theta);
-        FloatMatrix diff = hypoTheta.sub(y);
-        FloatMatrix deltaTheta = x.transpose().mmul(diff);
-        deltaTheta = deltaTheta.mul(alpha / m);
-        return theta.sub(deltaTheta);
-    }
-
-    public static Object[] linearRegression(FloatMatrix normX, FloatMatrix normY, FloatMatrix orgY, int iterations, float alpha) {
-        Random.seed(7);
-        FloatMatrix theta = FloatMatrix.rand(normX.columns, 1);
-        int m = normY.rows;
-        float[] rmseArray = new float[iterations];
-
-        for (int i = 0; i < iterations; i++) {
-            theta = gradient(normX, normY, theta, alpha, m);
-            rmseArray[i] = rmse(orgY, denormalize(linearkombi(theta, normX), orgY));
-        }
-        Object[] thetaRMSE = new Object[2];
-        thetaRMSE[0] = theta;
-        thetaRMSE[1] = rmseArray;
-        return thetaRMSE;
-    }
 }
 
 

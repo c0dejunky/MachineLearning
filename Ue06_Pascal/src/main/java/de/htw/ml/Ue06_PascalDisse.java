@@ -17,7 +17,7 @@ public class Ue06_PascalDisse extends Application {
 
 	public static final String title = "Line Chart";
 	public static final String xAxisLabel = "Iterations";
-	public static final String yAxisLabel = "RMSE";
+	public static final String yAxisLabel = "Prediction Rate";
 	
 	public static void main(String[] args) throws IOException {
 		//load files
@@ -29,7 +29,7 @@ public class Ue06_PascalDisse extends Application {
 
 		//set number of iterations and alpha
 		int iterations = 100;
-		float alpha = 0.01f;
+		float alpha = 0.03f;
 		
 		//get values from last column
 		int lastColumnIndex = values.columns-1;
@@ -39,22 +39,12 @@ public class Ue06_PascalDisse extends Application {
 		FloatMatrix normX = getNormValues(values, lastColumnIndex);
 		FloatMatrix normY = normalize(orgY);
 		
-		//do linear regression and calc rmse
-		Object[]thetaRMSE = linearRegression(normX, normY, orgY, iterations, alpha);
-		FloatMatrix theta = (FloatMatrix) thetaRMSE[0];
-		float[] rmse = (float[])thetaRMSE[1];
-		
-		
-		//print best rmse
-		System.out.println("rmse: "+ rmse[rmse.length-1]);
-		
-		//plotte die rmse werte
-		plot(rmse); 
-		
-//		plot(orgY.toArray());
-//		FloatMatrix prediction = denormalize(linearkombi(theta, normX), orgY);
+		//do logistic Regression and calc error Rate
+		float[] predRates = LogisticRegression.calcLogReg(normX,normY,alpha,iterations);
 
-		
+		//plot prediction Rates
+		plot(predRates);
+
 	}
 	
 	public static FloatMatrix getNormValues(FloatMatrix orgX, int columns){
@@ -76,42 +66,7 @@ public class Ue06_PascalDisse extends Application {
 		float min = org.min();
 		return norm.mul(max-min).add(min);
 	}
-	
-	public static float rmse(FloatMatrix y, FloatMatrix gleichung){
-		return (float) Math.sqrt((double)MatrixFunctions.pow(y.sub(gleichung),2).sum()/(gleichung.length));
-	}
-	
-	public static FloatMatrix linearkombi(FloatMatrix theta, FloatMatrix x){
-		return  x.mmul(theta);
-	}
-	
-	public static FloatMatrix gradient(FloatMatrix x, FloatMatrix y, FloatMatrix theta, float alpha, float m){
-		FloatMatrix hypoTheta = x.mmul(theta);
-		FloatMatrix diff = hypoTheta.sub(y);
-		FloatMatrix deltaTheta = x.transpose().mmul(diff);
-		deltaTheta = deltaTheta.mul(alpha/m);
-		return theta.sub(deltaTheta);
-	}
-	
-	public static Object[] linearRegression(FloatMatrix normX, FloatMatrix normY, FloatMatrix orgY, int iterations, float alpha){
-		Random.seed(7);
-		FloatMatrix theta = FloatMatrix.rand(normX.columns, 1);
-		int m = normY.rows;
-		float[] rmseArray = new float[iterations];
-
-		for (int i = 0; i< iterations; i++){
-			theta = gradient(normX, normY, theta, alpha, m);
-			rmseArray[i] = rmse(orgY,denormalize(linearkombi(theta, normX), orgY));
-		}
-		Object[] thetaRMSE = new Object[2];
-		thetaRMSE[0] = theta;
-		thetaRMSE[1] = rmseArray;
-		return thetaRMSE;
-	}
-
-
-
-
+    
 
 	// ---------------------------------------------------------------------------------
 	// ------------ Alle Änderungen ab hier geschehen auf eigene Gefahr ----------------
