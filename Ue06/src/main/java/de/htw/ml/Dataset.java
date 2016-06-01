@@ -14,9 +14,9 @@ public class Dataset {
 	private FloatMatrix train;
 	private FloatMatrix test;
 
-	public Dataset(String path){
+	public Dataset(String csvFilePath){
 		try {
-			data = FloatMatrix.loadCSVFile(path);
+			data = FloatMatrix.loadCSVFile(csvFilePath);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

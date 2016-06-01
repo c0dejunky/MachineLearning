@@ -32,8 +32,6 @@ public class Ue05_Maximilian_Maske extends Application {
 		
 	}
 
-
-
 	private static void gradientCreditAmount(int iterations, float alpha) throws IOException {
 		credit = FloatMatrix.loadCSVFile("german_credit_jblas.csv"); //21 columns
 		xVals = credit.getColumns(new int[]{0, 1, 2, 3, 4, 6,7 , 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
@@ -65,8 +63,6 @@ public class Ue05_Maximilian_Maske extends Application {
 		plot(yVals);
 	}
 
-	
-	
 	// ---------------------------------------------------------------------------------
 	// ------------ Alle Änderungen ab hier geschehen auf eigene Gefahr ----------------
 	// ---------------------------------------------------------------------------------
