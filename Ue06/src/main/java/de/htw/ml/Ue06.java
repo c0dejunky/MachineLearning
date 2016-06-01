@@ -13,7 +13,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
-public class Ue06_Maximilian_Maske extends Application {
+public class Ue06 extends Application {
 
 	public static final String title = "Line Chart";
 	public static final String xAxisLabel = "Iteration";
