@@ -6,7 +6,7 @@ import org.jblas.FloatMatrix;
 
 public class ExpertSystem {
 
-	protected oldLogisticRegression regression;
+	protected LogisticRegression regression;
 	
 	protected int[] labels; 		// diese Labels soll das System Vorhersagen können
 	protected FloatMatrix[] thetas; // die Gewichte für ein Label
@@ -15,7 +15,7 @@ public class ExpertSystem {
 
 	
 	public ExpertSystem(int trainingIterations, float learnRate, int[] labels) {
-		this.regression = new oldLogisticRegression(trainingIterations, learnRate);
+		this.regression = new LogisticRegression(trainingIterations, learnRate);
 		this.thetas = new FloatMatrix[labels.length];
 		this.accuracy = new float[labels.length][];
 		this.trainErr = new float[labels.length][];		
@@ -58,17 +58,22 @@ public class ExpertSystem {
 		
 		FloatMatrix xTest = dataset.getXTest();
 		FloatMatrix yTest = dataset.getYTest();
-		
+
 		// die Vorhersagen für jedes Label
-		FloatMatrix[] hypothesisArr = Arrays.stream(thetas).map(theta -> oldLogisticRegression.predict(xTest, theta)).toArray(FloatMatrix[]::new);
-		
+		FloatMatrix[] hypothesisArr = Arrays.stream(thetas).map(theta -> LogisticRegression.predict(xTest, theta)).toArray(FloatMatrix[]::new);
+
 		// durchlaufe alle Zeilen
 		int correctSum = 0;
 		for (int r = 0; r < yTest.getRows(); r++) {
 			int expectedLabel = (int)yTest.data[r];
-			
-			// TODO finde das Theta welches die stärkste Hypothese hat
-			float hypothesisLabel = -1;
+			float hypothesisLabel;
+			// finde das Theta welches die stärkste Hypothese hat
+			//TODO
+			for (int i = 0; i < 3; i++) {
+				hypo = hypothesisArr[i].get(r);
+				if bestHypo > hypo...
+				hypothesisArr = dataset.getCategories()[i];
+			}
 
 			// stimmt das Label
 			if(expectedLabel == hypothesisLabel)

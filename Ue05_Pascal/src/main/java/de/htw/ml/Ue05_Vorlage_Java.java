@@ -28,12 +28,12 @@ public class Ue05_Vorlage_Java extends Application {
 		FloatMatrix values = credit;
 
 		//set number of iterations and alpha
-		int iterations = 100;
-		float alpha = 0.01f;
+		int iterations = 300;
+		float alpha = 0.05f;
 		
 		//get values from last column
 		int lastColumnIndex = values.columns-1;
-		FloatMatrix orgY = values.getColumn(lastColumnIndex);
+		FloatMatrix orgY = values.getColumn(5);
 		
 		//normalize values
 		FloatMatrix normX = getNormValues(values, lastColumnIndex);
@@ -60,6 +60,7 @@ public class Ue05_Vorlage_Java extends Application {
 	public static FloatMatrix getNormValues(FloatMatrix orgX, int columns){
 		FloatMatrix normValues = new FloatMatrix(orgX.rows, columns);
 		for(int i = 0; i < columns; i++){
+			if (i == 5) continue;
 			normValues.putColumn(i, normalize(orgX.getColumn(i)));
 		}
 		return normValues;

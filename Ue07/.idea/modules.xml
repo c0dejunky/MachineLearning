@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Ue05_Nico_Hezel_Java.iml" filepath="$PROJECT_DIR$/.idea/modules/Ue05_Nico_Hezel_Java.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Ue05_Nico_Hezel_Java_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Ue05_Nico_Hezel_Java_main.iml" group="Ue05_Nico_Hezel_Java" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Ue05_Nico_Hezel_Java_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Ue05_Nico_Hezel_Java_test.iml" group="Ue05_Nico_Hezel_Java" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Ue07_Pascal_Disse.iml" filepath="$PROJECT_DIR$/.idea/modules/Ue07_Pascal_Disse.iml" />
     </modules>
   </component>
 </project>

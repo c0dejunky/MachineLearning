@@ -30,9 +30,21 @@ public class LogisticRegression {
 		
 		// training
 		FloatMatrix bestTheta = theta.dup();
+		int m = yTrain.rows;
+		// Training für die logistische Regression
 		for (int iteration = 1; iteration < trainingIterations; iteration++) {
-			// TODO Training für die logistische Regression		
+			//Hypothesis
+			FloatMatrix hypoTheta = predict(xTrain, theta);
+			//Difference
+			FloatMatrix diff = hypoTheta.sub(yTrain);
+			//Desired Change
+			FloatMatrix deltaTheta = xTrain.transpose().mmul(diff);
+			//absorption
+			deltaTheta = deltaTheta.mul(learnRate/m);
+			//update
+			theta = theta.sub(deltaTheta);
 		}
+		bestTheta = theta;
 		
 		return bestTheta;
 	}
@@ -49,7 +61,8 @@ public class LogisticRegression {
 		FloatMatrix hypoTheta = sigmoidi(z);
 		return hypoTheta;
 	}
-		
+
+
 	/**
 	 * Berechnet den Trainingsfehler mit der logistischen Kostenfunktion oder den RMSE aus.
 	 * 
