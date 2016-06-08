@@ -66,14 +66,17 @@ public class ExpertSystem {
 		int correctSum = 0;
 		for (int r = 0; r < yTest.getRows(); r++) {
 			int expectedLabel = (int)yTest.data[r];
-			float hypothesisLabel;
+			float hypothesisLabel = 0;
 			// finde das Theta welches die stärkste Hypothese hat
 			//TODO
-			for (int i = 0; i < 3; i++) {
-				hypo = hypothesisArr[i].get(r);
-				if bestHypo > hypo...
-				hypothesisArr = dataset.getCategories()[i];
+			for (FloatMatrix f: hypothesisArr ) {
+				System.out.println("hypothesisArr" + f);
 			}
+//			for (int i = 0; i < 3; i++) {
+//				hypo = hypothesisArr[i].get(r);
+//				if bestHypo > hypo...
+//				hypothesisArr = dataset.getCategories()[i];
+//			}
 
 			// stimmt das Label
 			if(expectedLabel == hypothesisLabel)

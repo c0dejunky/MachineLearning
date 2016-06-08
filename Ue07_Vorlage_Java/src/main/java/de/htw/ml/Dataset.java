@@ -49,17 +49,17 @@ public class Dataset {
         yTrain = trainData.getColumn(predictColumn);
 
         // min und maximum für alle Spalten
-        FloatMatrix xMin = x.columnMins();
-        FloatMatrix xMax = x.columnMaxs();
-        float yMax = y.max();
-        float yMin = y.min();
+        FloatMatrix xMin = xTrain.columnMins();
+        FloatMatrix xMax = xTrain.columnMaxs();
+        float yMax = yTrain.max();
+        float yMin = yTrain.min();
 
 
         // normalisiere die Datensets
-        x = x.subRowVector(xMin).divRowVector(xMax.sub(xMin));
+        xTrain = xTrain.subRowVector(xMin).divRowVector(xMax.sub(xMin));
        // y = y.sub(yMin).div(yMax - yMin);
 
-        System.out.print("x: " + x.toString());
+        System.out.print("x: " + xTrain.toString());
 
     }
 
@@ -178,8 +178,21 @@ public class Dataset {
 
         // finde so viele Indizies von Zeilen in der die Kategorie vorkommt, wie Zeilen mit einer anderen Kategorie
         //50/50 pos/neg
-        int[] rowIndizies = new int[]{0, 1, 2};
+        int[] rowIndizies = new int[10];
 
+        int p = 0, n = 0, rowIndex = 0;
+        while (p + n < rowIndizies.length) {
+            int currentCategory = (int) yTrain.get(rowIndex);
+            if(currentCategory == category && p < (rowIndizies.length/2)) {
+                rowIndizies[p+n] = rowIndex;
+                p++;
+            } else if(currentCategory != category && n < (rowIndizies.length/2)){
+                rowIndizies[p+n] = rowIndex;
+                n++;
+            }
+            rowIndex++;
+        }
+        System.out.println("rowIndecies: " + rowIndizies.toString());
         // besorge die gewünschten Datenpunkte und binarisiere die Y-Werte
         return new FloatMatrix[]{xTrain.getRows(rowIndizies), yTrain.getRows(rowIndizies).eq(category)};
     }
