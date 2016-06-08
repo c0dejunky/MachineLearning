@@ -43,6 +43,9 @@ public class LogisticRegression {
 			deltaTheta = deltaTheta.mul(learnRate/m);
 			//update
 			theta = theta.sub(deltaTheta);
+
+			trainErrors[iteration] = cost(predict(xTrain, theta), yTrain);
+			predictionRates[iteration] = predictionRate(predict(xTest, theta), yTest);
 		}
 		bestTheta = theta;
 		
